@@ -9,6 +9,9 @@ export function openDatabase(path: string): DatabaseSync {
   }
   const database = new DatabaseSync(path);
   try {
+    database.function('normalize_text', { deterministic: true }, (value) =>
+      String(value ?? '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase(),
+    );
     database.exec('PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;');
     if (path !== ':memory:') database.exec('PRAGMA journal_mode = WAL');
     migrate(database);

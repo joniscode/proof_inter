@@ -50,3 +50,21 @@ Para comprobar persistencia, carga repetida y restricciones de datos:
 ```powershell
 npm.cmd test
 ```
+
+## Fase 3: catálogo
+
+| Endpoint | Descripción |
+| --- | --- |
+| `GET /api/products` | Lista de productos con paginación y filtros en SQLite |
+| `GET /api/categories` | Categorías disponibles |
+
+Ejemplo: `GET /api/products?page=1&limit=6&category=tecnologia&search=audifonos`.
+
+- `page`: entero positivo, predeterminado `1`, máximo `1000000`.
+- `limit`: tamaño de página entre `1` y `100`, predeterminado `6`.
+- `category`: categoría exacta, hasta 50 caracteres.
+- `search`: coincidencia parcial en el nombre, hasta 100 caracteres; ignora mayúsculas y tildes.
+
+La respuesta contiene `data` y `pagination` (`page`, `limit`, `total`, `totalPages`). Sin coincidencias o en una página fuera del resultado, `data` es una lista vacía. Los parámetros inválidos devuelven HTTP 400 con `{ "error": { "code": "INVALID_INPUT", "message": "..." } }`.
+
+Las consultas utilizan parámetros y orden estable por identificador. El índice de categoría ayuda al filtrado; la búsqueda parcial recorre los nombres, una decisión suficiente para este catálogo pequeño. `npm.cmd test` también verifica paginación, filtros y validación mediante peticiones HTTP.

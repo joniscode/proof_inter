@@ -1,8 +1,9 @@
-import { app } from './app.js';
+import { createApp } from './app.js';
 import { env } from './config/env.js';
 import { openDatabase } from './db/database.js';
 
 const database = openDatabase(env.databasePath);
+const app = createApp(database);
 
 const server = app.listen(env.port, () => {
   console.log(`API disponible en http://localhost:${env.port} (${env.nodeEnv})`);
