@@ -4,4 +4,4 @@ Backend en Node.js, Express y TypeScript con persistencia SQLite. Incluye catál
 
 Las instrucciones de ejecución, endpoints, pruebas y decisiones están en [Back/README.md](Back/README.md).
 
-La carpeta `Front` está reservada para la siguiente etapa.
+El frontend utiliza React, TypeScript y Vite. Las instrucciones de la configuración inicial y conexión con la API están en [Front/README.md](Front/README.md).
