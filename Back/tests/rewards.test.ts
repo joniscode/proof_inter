@@ -127,3 +127,16 @@ test('el historial de recompensas persiste y evita repetir puntos después de re
     rmSync(directory, { recursive: true, force: true });
   }
 });
+
+test('si falla la actualización del saldo se revierten el evento y el carrito', async () => {
+  await withApi(async (url, database) => {
+    database.exec(`
+      CREATE TRIGGER fail_points BEFORE UPDATE OF points ON users
+      BEGIN SELECT RAISE(ABORT, 'points test failure'); END;
+    `);
+    assert.throws(() => changeCartItem(database, 1, 1, 'add'), /points test failure/);
+    assert.equal(database.prepare('SELECT COUNT(*) AS count FROM reward_events').get()?.count, 0);
+    assert.equal((await (await fetch(`${url}/api/cart`)).json()).totalItems, 0);
+    assert.equal((await (await fetch(`${url}/api/user`)).json()).points, 0);
+  });
+});

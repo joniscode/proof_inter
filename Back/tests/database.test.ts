@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { test } from 'node:test';
 import { openDatabase } from '../src/db/database.js';
 import { seedDatabase } from '../src/db/seed-data.js';
+import { migrate } from '../src/db/schema.js';
 
 test('los datos persisten al cerrar y volver a abrir SQLite', () => {
   const directory = mkdtempSync(join(tmpdir(), 'proof-inter-db-'));
@@ -52,6 +53,36 @@ test('el esquema rechaza valores negativos en stock, precio y puntos', () => {
     assert.throws(() => database.prepare('UPDATE products SET price = -1 WHERE id = 1').run());
     assert.throws(() => database.prepare('UPDATE users SET points = -1 WHERE id = 1').run());
     assert.throws(() => database.prepare('INSERT INTO cart_items (user_id, product_id, quantity) VALUES (1, 999, 1)').run());
+  } finally {
+    database.close();
+  }
+});
+
+test('actualiza una base de la fase 2 sin modificar productos o puntos existentes', () => {
+  const database = openDatabase(':memory:');
+  try {
+    seedDatabase(database);
+    database.prepare('UPDATE users SET points = 20 WHERE id = 1').run();
+    database.exec('DROP TABLE reward_events; DROP TABLE cart_items; PRAGMA user_version = 1;');
+    migrate(database);
+    assert.equal(database.prepare('PRAGMA user_version').get()?.user_version, 3);
+    assert.equal(database.prepare('SELECT COUNT(*) AS count FROM products').get()?.count, 12);
+    assert.equal(database.prepare('SELECT points FROM users WHERE id = 1').get()?.points, 20);
+    assert.equal(database.prepare('SELECT COUNT(*) AS count FROM cart_items').get()?.count, 0);
+    assert.equal(database.prepare('SELECT COUNT(*) AS count FROM reward_events').get()?.count, 0);
+  } finally {
+    database.close();
+  }
+});
+
+test('una migración fallida conserva la versión anterior y rechaza esquemas futuros', () => {
+  const database = openDatabase(':memory:');
+  try {
+    database.exec('PRAGMA user_version = 2');
+    assert.throws(() => migrate(database), /already exists/);
+    assert.equal(database.prepare('PRAGMA user_version').get()?.user_version, 2);
+    database.exec('PRAGMA user_version = 999');
+    assert.throws(() => migrate(database), /versión más reciente/);
   } finally {
     database.close();
   }

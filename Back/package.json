@@ -11,6 +11,7 @@
     "dev": "tsx watch src/server.ts",
     "db:seed": "tsx src/db/seed.ts",
     "test": "tsx --test tests/*.test.ts",
+    "check": "npm run typecheck && npm test && npm run build",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
     "start": "node dist/server.js"

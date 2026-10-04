@@ -12,6 +12,7 @@ Requiere Node.js 24 o superior y npm. Desde la raíz del repositorio, en PowerSh
 cd Back
 npm.cmd ci
 Copy-Item .env.example .env
+npm.cmd run db:seed
 npm.cmd run dev
 ```
 
@@ -97,3 +98,49 @@ La regla se aplica tanto a `POST` como a `PUT` cuando crean una entrada en el ca
 `GET /api/user` devuelve el usuario de demostración con `id`, `name` y `points`. Las respuestas del carrito incluyen el saldo en `points`; las operaciones de modificación también incluyen `pointsGranted`, con el premio de esa operación o `0`.
 
 El cliente solo envía el producto y la cantidad. No existe un endpoint para asignar puntos. Las acciones rechazadas por validación o stock no generan recompensas. Las pruebas verifican premios únicos, persistencia, concurrencia y reversión de la transacción ante fallos.
+
+## Fase 6: verificación y cierre del backend
+
+Para ejecutar la comprobación de tipos, las pruebas y la compilación:
+
+```powershell
+npm.cmd run check
+```
+
+Las pruebas usan bases de datos en memoria o archivos temporales; no modifican la base local. Cubren catálogo, carrito, stock, recompensas, persistencia, migraciones, configuración y formato de errores.
+
+### Contrato de errores
+
+```json
+{ "error": { "code": "INSUFFICIENT_STOCK", "message": "La cantidad solicitada supera el stock disponible." } }
+```
+
+| HTTP | Códigos |
+| --- | --- |
+| 400 | `INVALID_INPUT`, `INVALID_JSON` |
+| 404 | `NOT_FOUND`, `PRODUCT_NOT_FOUND`, `USER_NOT_FOUND` |
+| 409 | `INSUFFICIENT_STOCK` |
+| 413 | `PAYLOAD_TOO_LARGE` |
+| 500 | `INTERNAL_ERROR` |
+
+### Decisiones y alcance
+
+- Las rutas validan las solicitudes; los servicios resuelven carrito, usuario y recompensas; los repositorios consultan SQLite.
+- SQLite simplifica la ejecución local. Sus operaciones síncronas son suficientes para esta prueba; con mayor tráfico se evaluaría otro acceso a datos y búsqueda indexada.
+- Se utiliza un usuario de demostración fijo. La autenticación, pagos, checkout y administración de inventario quedan fuera de este alcance.
+- Los precios, el stock y los puntos se resuelven en el servidor. Las imágenes de demostración provienen de un servicio externo de placeholders.
+- El frontend podrá usar un proxy para `/api` durante desarrollo y enviar cantidades absolutas con `PUT` para evitar duplicar unidades en reintentos.
+
+### Ejemplo de uso en PowerShell
+
+Con la API iniciada, desde otra terminal:
+
+```powershell
+Invoke-RestMethod 'http://localhost:3000/api/products?page=1&limit=6'
+Invoke-RestMethod 'http://localhost:3000/api/user'
+Invoke-RestMethod 'http://localhost:3000/api/cart/items' -Method Post -ContentType 'application/json' -Body '{"productId":1,"quantity":1}'
+Invoke-RestMethod 'http://localhost:3000/api/cart'
+Invoke-RestMethod 'http://localhost:3000/api/cart/items/1' -Method Delete
+```
+
+La primera adición de un producto otorga 10 puntos; las siguientes conservan el saldo. Para producción local, ejecuta `npm.cmd run build` y luego `npm.cmd start`. Las migraciones se aplican al iniciar; `db:seed` se ejecuta cuando se requieren los datos de demostración.
