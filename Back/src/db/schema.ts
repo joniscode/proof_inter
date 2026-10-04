@@ -25,6 +25,16 @@ const migrations = [
       PRIMARY KEY (user_id, product_id)
     ) STRICT;
   `,
+  `
+    CREATE TABLE reward_events (
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      product_id INTEGER NOT NULL REFERENCES products(id),
+      action TEXT NOT NULL CHECK (action = 'cart_add'),
+      points INTEGER NOT NULL CHECK (points > 0),
+      created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+      PRIMARY KEY (user_id, product_id, action)
+    ) STRICT;
+  `,
 ];
 
 export function migrate(database: DatabaseSync): void {

@@ -82,8 +82,18 @@ Cada operación devuelve `items` (producto, cantidad y subtotal), `totalItems` (
 
 El carrito persiste en SQLite y utiliza el usuario de demostración `1`, seleccionado por el servidor. No hay autenticación en este alcance. Ejecuta `npm.cmd run db:seed` antes de probarlo.
 
-Las cantidades deben ser enteros entre 1 y 999 y no superar el stock; para quitar un producto se usa `DELETE`. Las operaciones de escritura usan transacciones. Un producto inexistente devuelve 404 y stock insuficiente devuelve 409. Agregar al carrito no reserva ni descuenta inventario y todavía no otorga puntos.
+Las cantidades deben ser enteros entre 1 y 999 y no superar el stock; para quitar un producto se usa `DELETE`. Las operaciones de escritura usan transacciones. Un producto inexistente devuelve 404 y stock insuficiente devuelve 409. Agregar al carrito no reserva ni descuenta inventario.
 
 `PUT` permite reintentar una cantidad absoluta sin acumular unidades; `POST` agrega unidades y no debe reintentarse automáticamente. La actualización optimista y su reversión ante errores se implementarán en el frontend.
 
 Las pruebas incluyen totales, modificaciones del carrito, stock, solicitudes concurrentes y rechazo de datos manipulados.
+
+## Fase 5: recompensas
+
+El usuario gana **10 puntos por cada producto distinto agregado al carrito por primera vez**. Agregar más unidades, actualizar la cantidad o quitar y volver a agregar el mismo producto no genera puntos adicionales. Quitar productos conserva los puntos obtenidos.
+
+La regla se aplica tanto a `POST` como a `PUT` cuando crean una entrada en el carrito. Los cambios de carrito, el historial de recompensas y el saldo se guardan en una misma transacción. Una restricción única por usuario, producto y acción impide repetir premios, incluso después de reiniciar la API.
+
+`GET /api/user` devuelve el usuario de demostración con `id`, `name` y `points`. Las respuestas del carrito incluyen el saldo en `points`; las operaciones de modificación también incluyen `pointsGranted`, con el premio de esa operación o `0`.
+
+El cliente solo envía el producto y la cantidad. No existe un endpoint para asignar puntos. Las acciones rechazadas por validación o stock no generan recompensas. Las pruebas verifican premios únicos, persistencia, concurrencia y reversión de la transacción ante fallos.

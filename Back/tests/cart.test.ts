@@ -31,7 +31,7 @@ function mutate(url: string, method: string, body?: unknown, path = '/api/cart/i
 
 test('agregar, acumular, actualizar y quitar mantienen el total calculado en servidor', async () => {
   await withApi(async url => {
-    assert.deepEqual(await (await fetch(`${url}/api/cart`)).json(), { items: [], totalItems: 0, total: 0, currency: 'COP' });
+    assert.deepEqual(await (await fetch(`${url}/api/cart`)).json(), { items: [], totalItems: 0, total: 0, currency: 'COP', points: 0 });
     let response = await mutate(url, 'POST', { productId: 1, quantity: 2 });
     assert.equal(response.status, 200);
     let cart = await response.json();
