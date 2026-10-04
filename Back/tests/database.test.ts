@@ -13,11 +13,13 @@ test('los datos persisten al cerrar y volver a abrir SQLite', () => {
     let database = openDatabase(path);
     seedDatabase(database);
     database.prepare('UPDATE users SET points = 20 WHERE id = 1').run();
+    database.prepare('INSERT INTO cart_items (user_id, product_id, quantity) VALUES (1, 1, 2)').run();
     database.close();
     database = openDatabase(path);
     try {
       assert.equal(database.prepare('SELECT points FROM users WHERE id = 1').get()?.points, 20);
       assert.equal(database.prepare('SELECT COUNT(*) AS count FROM products').get()?.count, 12);
+      assert.equal(database.prepare('SELECT quantity FROM cart_items WHERE user_id = 1 AND product_id = 1').get()?.quantity, 2);
     } finally {
       database.close();
     }
@@ -49,6 +51,7 @@ test('el esquema rechaza valores negativos en stock, precio y puntos', () => {
     assert.throws(() => database.prepare('UPDATE products SET stock = -1 WHERE id = 1').run());
     assert.throws(() => database.prepare('UPDATE products SET price = -1 WHERE id = 1').run());
     assert.throws(() => database.prepare('UPDATE users SET points = -1 WHERE id = 1').run());
+    assert.throws(() => database.prepare('INSERT INTO cart_items (user_id, product_id, quantity) VALUES (1, 999, 1)').run());
   } finally {
     database.close();
   }

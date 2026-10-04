@@ -2,6 +2,7 @@ import express, { type ErrorRequestHandler } from 'express';
 import type { DatabaseSync } from 'node:sqlite';
 import { HttpError } from './lib/http-error.js';
 import { productRoutes } from './products/product.routes.js';
+import { cartRoutes } from './cart/cart.routes.js';
 
 export function createApp(database: DatabaseSync) {
   const app = express();
@@ -14,6 +15,7 @@ export function createApp(database: DatabaseSync) {
   });
 
   app.use('/api', productRoutes(database));
+  app.use('/api', cartRoutes(database));
 
   app.use((_req, res) => {
     res.status(404).json({

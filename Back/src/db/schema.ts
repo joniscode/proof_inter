@@ -17,6 +17,14 @@ const migrations = [
       points INTEGER NOT NULL DEFAULT 0 CHECK (points >= 0)
     ) STRICT;
   `,
+  `
+    CREATE TABLE cart_items (
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+      quantity INTEGER NOT NULL CHECK (quantity BETWEEN 1 AND 999),
+      PRIMARY KEY (user_id, product_id)
+    ) STRICT;
+  `,
 ];
 
 export function migrate(database: DatabaseSync): void {

@@ -24,3 +24,17 @@ export function allowedFields(value: object, fields: string[]): void {
     throw new HttpError(400, 'INVALID_INPUT', 'La solicitud contiene campos no permitidos.');
   }
 }
+
+export function bodyObject(value: unknown): Record<string, unknown> {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new HttpError(400, 'INVALID_INPUT', 'El cuerpo debe ser un objeto JSON.');
+  }
+  return value as Record<string, unknown>;
+}
+
+export function bodyInteger(value: unknown, field: string, maximum = Number.MAX_SAFE_INTEGER): number {
+  if (typeof value !== 'number' || !Number.isSafeInteger(value) || value < 1 || value > maximum) {
+    throw new HttpError(400, 'INVALID_INPUT', `${field} debe ser un entero entre 1 y ${maximum}.`);
+  }
+  return value;
+}
