@@ -16,4 +16,9 @@ if (!['development', 'test', 'production'].includes(nodeEnv)) {
   throw new Error('NODE_ENV debe ser development, test o production.');
 }
 
-export const env = { port, nodeEnv };
+const databasePath = process.env.DATABASE_PATH ?? 'data/store.sqlite';
+if (!databasePath.trim()) {
+  throw new Error('DATABASE_PATH no puede estar vacío.');
+}
+
+export const env = { port, nodeEnv, databasePath };
