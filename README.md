@@ -1,6 +1,6 @@
 # Catálogo con recompensas
 
-Backend en Node.js, Express y TypeScript con persistencia SQLite. Incluye catálogo paginado, filtros, carrito y recompensas calculadas en el servidor.
+Backend en Node.js, Express y TypeScript con persistencia SQLite y Sesión storage. Incluye catálogo paginado, filtros, carrito y recompensas calculadas en el servidor.
 
 Las instrucciones de ejecución, endpoints, pruebas y decisiones están en [Back/README.md](Back/README.md).
 
