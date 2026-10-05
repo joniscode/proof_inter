@@ -1,0 +1,139 @@
+{
+  "app": {
+    "name": "PUNTO",
+    "initial": "P",
+    "mark": ".",
+    "title": "Punto · Elige y suma",
+    "description": "Catálogo de productos con carrito y recompensas.",
+    "homeLabel": "Punto, inicio"
+  },
+  "navigation": {
+    "mainLabel": "Navegación principal",
+    "skipContent": "Saltar al contenido",
+    "rewards": "Cómo sumas"
+  },
+  "common": {
+    "retry": "Volver a intentar"
+  },
+  "connection": {
+    "label": "Disponibilidad de la tienda",
+    "loading": "Comprobando disponibilidad…",
+    "connected": "La tienda está disponible.",
+    "error": "No pudimos conectar con la tienda. Intenta de nuevo.",
+    "retryLabel": "Volver a comprobar",
+    "retry": "Comprobar conexión",
+    "checking": "Comprobando…"
+  },
+  "hero": {
+    "number": "01",
+    "label": "ELIGE CON INTENCIÓN",
+    "title": {
+      "first": "LO QUIERES.",
+      "accent": "LO ELIGES.",
+      "last": "LO SUMAS."
+    },
+    "description": [
+      "Tecnología, hogar y deporte.",
+      "Objetos para tu día a día.",
+      "Recompensas por elegirlos."
+    ],
+    "action": "Ver productos"
+  },
+  "artwork": {
+    "label": "Bolsa azul Punto con una etiqueta: 10 puntos por la primera elección de cada producto",
+    "topline": "EL OBJETO ES SOLO EL COMIENZO.",
+    "bagCaption": [
+      "BUENAS ELECCIONES",
+      "VAN AQUÍ."
+    ],
+    "bagBaseline": "PUNTO / TIENDA",
+    "ticketLabel": "TU PRIMERA ELECCIÓN",
+    "ticketValue": "+10",
+    "ticketUnit": "PTS",
+    "ticketNote": "UNA VEZ POR PRODUCTO",
+    "baseline": "EXPLORA / ELIGE / SUMA"
+  },
+  "categories": {
+    "tecnologia": "TECNOLOGÍA",
+    "hogar": "HOGAR",
+    "deportes": "DEPORTE"
+  },
+  "rewards": {
+    "categoriesLabel": "Categorías de la tienda",
+    "number": "03",
+    "label": "UN PEQUEÑO EXTRA",
+    "title": "ELEGIR TIENE SU",
+    "titleAccent": "PUNTO.",
+    "note": "ASÍ DE SIMPLE. ASÍ DE TUYO.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Encuentra lo tuyo.",
+        "description": "Tecnología, hogar o deporte. Tu día a día, tus elecciones."
+      },
+      {
+        "number": "02",
+        "title": "Tu elección suma.",
+        "description": "Gana 10 puntos al agregar cada producto al carrito por primera vez."
+      },
+      {
+        "number": "03",
+        "title": "Los puntos se quedan.",
+        "description": "Quitar y volver a agregar un producto conserva tu saldo, sin repetir el premio."
+      }
+    ]
+  },
+  "catalog": {
+    "number": "02",
+    "label": "OBJETOS PARA TU DÍA A DÍA",
+    "title": "ENCUENTRA LO TUYO.",
+    "summary": "Productos",
+    "loading": "Cargando productos…",
+    "error": "No pudimos cargar los productos.",
+    "empty": "No hay productos disponibles.",
+    "add": "Agregar al carrito",
+    "soldOut": "Agotado",
+    "stock": "Disponibles",
+    "selectionComplete": "Ya agregaste todo el stock disponible.",
+    "search": "Buscar por nombre",
+    "category": "Categoría",
+    "all": "Todas las categorías",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "page": "Página",
+    "of": "de",
+    "pagination": "Paginación del catálogo"
+  },
+  "cart": {
+    "title": "TU SELECCIÓN.",
+    "loading": "Cargando tu carrito…",
+    "error": "No pudimos cargar tu carrito.",
+    "empty": "Tu carrito está vacío. Elige un producto para comenzar.",
+    "quantity": "Cantidad",
+    "remove": "Quitar",
+    "total": "Total",
+    "units": "Unidades",
+    "saving": "Actualizando carrito…",
+    "increase": "Aumentar cantidad",
+    "decrease": "Reducir cantidad",
+    "rollback": "No se pudo guardar el cambio. Recuperamos el carrito anterior.",
+    "minus": "−",
+    "plus": "+",
+    "buy": "Comprar",
+    "buying": "Confirmando compra…",
+    "checkoutNote": "Sin cobros reales. El inventario se descuenta solo durante esta sesión.",
+    "checkoutSuccess": "Compra simulada completada. Tu carrito está vacío y el inventario de esta sesión se actualizó."
+  },
+  "points": {
+    "title": "TUS PUNTOS",
+    "description": "Tu saldo, directo de la tienda.",
+    "pending": "—",
+    "earned": "Puntos obtenidos",
+    "confirmed": "Saldo confirmado por el servidor."
+  },
+  "errors": {
+    "rootMissing": "No se encontró el elemento raíz.",
+    "invalidResponse": "La respuesta de la tienda no es válida.",
+    "invalidApiTarget": "API_TARGET debe ser una URL HTTP o HTTPS."
+  }
+}

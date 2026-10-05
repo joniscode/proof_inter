@@ -2,8 +2,9 @@ import { Router } from 'express';
 import type { DatabaseSync } from 'node:sqlite';
 import { allowedFields, optionalText, positiveInteger } from '../lib/validation.js';
 import { listCategories, listProducts } from './product.repository.js';
+import { availableProduct, getInventorySession, type InventorySessions } from '../simulation/inventory.js';
 
-export function productRoutes(database: DatabaseSync): Router {
+export function productRoutes(database: DatabaseSync, sessions: InventorySessions): Router {
   const router = Router();
 
   router.get('/products', (req, res) => {
@@ -12,7 +13,9 @@ export function productRoutes(database: DatabaseSync): Router {
     const limit = positiveInteger(req.query.limit ?? '6', 'limit', 100);
     const category = optionalText(req.query.category, 'category', 50);
     const search = optionalText(req.query.search, 'search', 100);
-    res.json(listProducts(database, { page, limit, category, search }));
+    const inventory = getInventorySession(req, sessions);
+    const result = listProducts(database, { page, limit, category, search });
+    res.json({ ...result, data: result.data.map(product => availableProduct(product, inventory)) });
   });
 
   router.get('/categories', (_req, res) => {

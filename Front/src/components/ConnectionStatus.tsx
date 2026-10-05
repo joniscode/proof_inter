@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getHealth } from '../api/health';
+import { Button } from './ui/Button';
+import { Icon } from './ui/Icon';
+import texts from '../content/texts.json';
 
 type ConnectionState = 'loading' | 'connected' | 'error';
 
@@ -20,22 +23,17 @@ export function ConnectionStatus() {
     setAttempt(current => current + 1);
   }
 
-  const messages: Record<ConnectionState, string> = {
-    loading: 'Comprobando disponibilidad…',
-    connected: 'La tienda está disponible.',
-    error: 'No pudimos conectar con la tienda. Intenta de nuevo.',
-  };
-
   return (
-    <section className="connection-card" aria-labelledby="connection-title" aria-busy={state === 'loading'}>
-      <div className="connection-heading">
-        <span className={`status-dot status-dot--${state}`} aria-hidden="true" />
-        <h2 id="connection-title">Conexión con la tienda</h2>
+    <section className={`connection-strip connection-strip--${state}`} aria-label={texts.connection.label} aria-busy={state === 'loading'}>
+      <div className="container-fluid page-container d-flex align-items-center justify-content-between gap-3">
+        <div className="connection-message d-flex align-items-center gap-2">
+          <span className={`status-dot status-dot--${state}`} aria-hidden="true" />
+          <p className="mb-0" role="status" aria-live="polite">{texts.connection[state]}</p>
+        </div>
+        <Button className="connection-retry" onClick={retry} disabled={state === 'loading'} aria-label={texts.connection.retryLabel}>
+          <span className="d-none d-sm-inline">{state === 'loading' ? texts.connection.checking : texts.connection.retry}</span><Icon name="refresh" />
+        </Button>
       </div>
-      <p role="status" aria-live="polite">{messages[state]}</p>
-      <button type="button" onClick={retry} disabled={state === 'loading'}>
-        {state === 'loading' ? 'Comprobando…' : 'Volver a comprobar'}
-      </button>
     </section>
   );
 }

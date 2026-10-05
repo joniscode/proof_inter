@@ -1,0 +1,31 @@
+:root {
+  --punto-ink: #20211e;
+  --punto-paper: #f4f1e9;
+  --punto-blue: #244afa;
+  --punto-blue-deep: #0b2694;
+  --punto-lime: #d7fb6b;
+  --punto-muted: #62635b;
+  --punto-white: #ffffff;
+  --punto-warning: #95600b;
+  --punto-success: #286a37;
+  --punto-danger: #b02b24;
+  --punto-danger-background: #f9e2d9;
+  --punto-artwork-background: #e6eaff;
+
+  --punto-border-soft: color-mix(in srgb, var(--punto-ink) 13%, transparent);
+  --punto-orbit-border: color-mix(in srgb, var(--punto-ink) 19%, transparent);
+  --punto-artwork-shadow: color-mix(in srgb, var(--punto-blue) 12%, transparent);
+  --punto-bag-shade: color-mix(in srgb, var(--punto-blue-deep) 31%, transparent);
+  --punto-line-on-blue: color-mix(in srgb, var(--punto-white) 44%, transparent);
+  --punto-product-background: color-mix(in srgb, var(--punto-paper) 70%, var(--punto-white));
+
+  --punto-font-body: 'Manrope Variable', 'Segoe UI', sans-serif;
+  --punto-font-display: 'Anton', Impact, sans-serif;
+
+  --bs-body-font-family: var(--punto-font-body);
+  --bs-body-color: var(--punto-ink);
+  --bs-body-bg: var(--punto-paper);
+  --bs-border-radius: 0;
+  --bs-link-color: var(--punto-ink);
+  --bs-link-hover-color: var(--punto-blue);
+}

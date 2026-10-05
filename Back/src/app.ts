@@ -4,9 +4,11 @@ import { HttpError } from './lib/http-error.js';
 import { productRoutes } from './products/product.routes.js';
 import { cartRoutes } from './cart/cart.routes.js';
 import { userRoutes } from './users/user.routes.js';
+import type { InventorySessions } from './simulation/inventory.js';
 
 export function createApp(database: DatabaseSync) {
   const app = express();
+  const inventorySessions: InventorySessions = new Map();
 
   app.disable('x-powered-by');
   app.use(express.json({ limit: '100kb' }));
@@ -15,8 +17,8 @@ export function createApp(database: DatabaseSync) {
     res.status(200).json({ status: 'ok', service: 'proof-inter-back' });
   });
 
-  app.use('/api', productRoutes(database));
-  app.use('/api', cartRoutes(database));
+  app.use('/api', productRoutes(database, inventorySessions));
+  app.use('/api', cartRoutes(database, inventorySessions));
   app.use('/api', userRoutes(database));
 
   app.use((_req, res) => {

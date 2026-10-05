@@ -25,3 +25,7 @@ export function writeQuantity(database: DatabaseSync, userId: number, productId:
 export function removeItem(database: DatabaseSync, userId: number, productId: number): void {
   database.prepare('DELETE FROM cart_items WHERE user_id = ? AND product_id = ?').run(userId, productId);
 }
+
+export function clearCart(database: DatabaseSync, userId: number): void {
+  database.prepare('DELETE FROM cart_items WHERE user_id = ?').run(userId);
+}
