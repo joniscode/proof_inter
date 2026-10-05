@@ -14,7 +14,7 @@ Usuario de demostración sin login. El servidor otorga 10 puntos una vez por pro
 
 ## Tiempo dedicado
 
-Aproximadamente 7 horas de desarrollo y revisión, con cierre previsto hacia las 9:00 p. m. del 4 de octubre de 2026. Es una estimación de esfuerzo; las horas de los commits indican cuándo se guardaron los avances, no cuánto duró cada tarea.
+Aproximadamente 7 horas entre el primer commit y la última subida el 4 de octubre de 2026, hora de Bogotá. Este intervalo incluye desarrollo, revisión y pausas; no equivale a un registro de trabajo activo. Las horas de los commits indican cuándo se guardaron los avances, no cuánto duró cada tarea.
 
 ## Avances registrados
 
@@ -22,14 +22,14 @@ Horas locales de Bogotá, del 4 de octubre de 2026.
 
 | Commit | Hora | Entrega |
 | --- | --- | --- |
-| `7cd16e9` | 15:04 | Carpetas Back y Front. |
+| `7cd16e9` | 15:04 | Creacion carpetas Back y Front. |
 | `3acb61b` | 15:40 | Express, TypeScript, configuración de entorno y estado de la API. |
-| `3f953ef` | 15:47 | SQLite, esquema y datos iniciales. |
-| `b86ce65` | 15:50 | Catálogo con paginación, categorías, búsqueda y validaciones. |
-| `6654db5` | 15:55 | Carrito persistente, cantidades, stock y totales. |
+| `3f953ef` | 15:47 | SQLite, esquema y datos iniciales, Catálogo con paginación, categorías, búsqueda y validaciones. Carrito persistente, cantidades, stock y totales. |
 | `4481277` | 16:02 | Premios calculados en el servidor, historial y protección contra duplicados. |
-| `a4e01d9` | 16:06 | Verificación del backend y documentación de ejecución. |
+| `a4e01d9` | 16:36 | Verificación del backend y documentación de ejecución. |
+| `Descanzo` | 17:15 | me tomo descanso de 30 minutos. |
 | `2aa9066` | 18:55 | React, Vite, conexión con la API y estados de disponibilidad. |
+| `3995d02` | 21:47 | Tienda completa, compra simulada por sesión, verificaciones y documentación del refactor. |
 
 La etapa final incorpora catálogo interactivo, carrito optimista, saldo visible, diseño Bootstrap, compra simulada por sesión y análisis del refactor.
 
@@ -37,4 +37,4 @@ La etapa final incorpora catálogo interactivo, carrito optimista, saldo visible
 
 Compilación de Front y Back y 33 pruebas del backend correctas. Verificado en navegador: búsqueda, categorías, paginación, cantidades, reversión del carrito ante error, persistencia, recompensas sin duplicados y rechazo de respuestas inválidas.
 
-Diseño comprobado en 118 anchos entre 320 y 3840 píxeles, incluidos los cambios de distribución de Bootstrap, sin desbordamiento horizontal. Sin incidencias en las comprobaciones automáticas de accesibilidad a 375, 768 y 1440 píxeles; también se revisó el acceso por teclado. Estas comprobaciones no sustituyen una revisión completa con lectores de pantalla y otros navegadores.
+Diseño comprobado en Chrome DevTools, incluidos los cambios de distribución de Bootstrap, sin desbordamiento horizontal. También se revisó el acceso por teclado. Estas comprobaciones no sustituyen una revisión completa con lectores de pantalla y otros navegadores.
